@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragments/head1 :: head"></head>
+
+<body>
+
+<nav th:replace="fragments/head1.html :: navbar ('Products')"/>
+<div class="container">
+  <div class="row py-2">
+
+
+    <div class="col-12 mt-3" th:replace="fragments/input :: input"></div>
+
+    <div class="container">
+
+      <div class="d-flex">
+        <div class="row row-cols-auto ml-3 mt-5 mb-5">
+          <div th:if="${products.hasContent()}" th:each="product : ${products.content}" class="card col me-2 ml-5" style="width: 18rem;">
+            <img th:src="*{'data:image/jpeg;base64,'+{product.imageLink}}" width="150px"  class="card-img-top" alt="..."/>
+            <div class="card-body">
+              <h5 th:text="${product.title}" class="card-title">Product title</h5>
+              <small th:text="${'Price: ' + product.cost + ' rub.'}" class="mb-5">Price</small>
+              <div class="justify-content mt-3">
+                <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${'More info'}" class="btn btn-primary mb-2">More info</a>
+                <a th:href="@{/cart/add(id=${product.id})}" class="btn btn-primary mb-2">Add to cart</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div th:unless="${products.hasContent()}">
+          <h3 th:text="${'No Data'}">No Data</h3>
+        </div>
+      </div>
+
+    </div>
+    <div th:if="${products.hasContent()}">
+      <nav aria-label="Pagination" th:if="${products.totalPages gt 0}">
+        <ul class="pagination justify-content-center font-weight-medium">
+        <ul class="pagination">
+
+
+
+          <li th:classappend="${products.number eq 0}? 'disabled'"
+                  class="page-item ">
+            <a class="page-link" th:href="@{/product(page=${products.number lt 2 ? 1 : products.number}, size=${products.size},
+               userNameFilter=${param.userNameFilter}, min=${param.min}, max=${param.max})}" tabindex="-1">Previous</a>
+
+          </li>
+
+          <li th:each="num : ${#numbers.sequence(1,products.totalPages)}"
+              th:classappend="${num == products.number +1} ? 'active'"
+              class="page-item">
+            <a class="page-link"
+               th:text="${num}"
+               th:href="@{/product(page=${num}, size=${products.size},
+               userNameFilter=${param.userNameFilter}, min=${param.min}, max=${param.max})}">1</a>
+
+          </li>
+
+
+          <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages}? 'disabled'">
+            <a class="page-link" th:href="@{/product(page=${products.number + 2}, size=${products.size},
+               userNameFilter=${param.userNameFilter}, min=${param.min}, max=${param.max})}">Next</a>
+          </li>
+
+        </ul>
+
+    </div>
+
+    </tr>
+  </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<th:block th:replace="fragments/below :: below"></th:block>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+
+</head>
+<title>JennyShop</title>
+
+<div class="container">
+  <nav th:fragment="navbar (pageName)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" >JennyShop</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul th:unless="${pageName == 'none'}" class="navbar-nav mr-auto">
+        <li class="nav-item" th:classappend="${pageName == 'Products'} ? 'active'">
+          <a class="nav-link" th:href="@{/product}">Products</a>
+        <li class="nav-item" th:classappend="${pageName == 'Cart'} ? 'active'">
+          <a class="nav-link" th:href="@{/cart/all}">Cart
+
+            <span th:if="${shoppingCart.getCount() > 0}" th:text="${shoppingCart.getCount()}"></span>
+          </a>
+
+        <li>
+          <a class="btn btn-primary" th:href="@{/product/new}" sec:authorize="hasAnyRole('ADMIN')">Add Product</a>
+        </li>
+        <li class="nav-item ml-3">
+          <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary me-2">Log in</a>
+        </li>
+        <li class="nav-item ml-3">
+          <a th:href="@{/user/registration}" sec:authorize="isAnonymous()" class="btn btn-success me-2">Registration</a>
+        </li>
+
+        <li>
+          <form sec:authorize="isAuthenticated()"
+                th:action="@{/logout}" th:method="post"
+                class="form-inline my-2 my-lg-0" >
+            <button class="btn btn-outline-success my-2 my-sm-0">
+              Logout <span sec:authentication="principal.username"></span>
+            </button>
+          </form>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+</div>
+
+
+</html>

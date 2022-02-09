@@ -1,0 +1,26 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div class="col-12 mt-3" th:fragment="input">
+  <form class="form-inline" th:method="get">
+
+    <div class="form-group mb-2 mr-2">
+      <label th:for="nameFilter" class="sr-only">nameFilter</label>
+      <input type="text" class="form-control" th:id="nameFilter" th:value="${param.nameFilter}"
+             th:name="nameFilter" placeholder="Product name Filter">
+    </div>
+    <div class="form-group mb-2 mr-2">
+      <label th:for="min" class="sr-only">min</label>
+      <input type="number" class="form-control" th:id="min" th:value="${param.min}"
+             th:name="min" placeholder="min value">
+    </div>
+    <div class="form-group mb-2 mr-2">
+      <label th:for="max" class="sr-only">max</label>
+      <input type="number" class="form-control" th:id="max" th:value="${param.max}"
+             th:name="max" placeholder="max value">
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-2">Filter</button>
+  </form>
+</div>
+</html>
